@@ -1,0 +1,2 @@
+把策划案例的 PDF 放到这个目录下，文件名与 `src/content/cases/*.md` 里的 `pdf` 字段保持一致。
+例如：`case-1.pdf` 对应 `pdf: /files/cases/case-1.pdf`。

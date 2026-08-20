@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const teardowns = await getCollection('teardowns');
+  return teardowns.map((t) => ({
+    params: { slug: t.id },
+    props: { teardown: t },
+  }));
+}
+
+const { teardown } = Astro.props;
+const { Content } = await render(teardown);
+const { title, game, date, tags } = teardown.data;
+---
+
+<BaseLayout title={title} description={`${game} 的游戏拆解`}>
+  <article>
+    <a class="back-link" href="/teardowns/">← 返回全部拆解</a>
+    <h1 class="page-title">{title}</h1>
+    <p class="card-meta">拆解对象：{game}{date ? ` · ${date}` : ''}</p>
+
+    {tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

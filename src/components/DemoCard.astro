@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  tagline?: string;
+  cover?: string;
+  tech?: string[];
+}
+
+const { href, title, tagline, cover, tech = [] } = Astro.props;
+---
+
+<a class="card demo-card" href={href}>
+  <div class="card-cover">
+    {cover
+      ? <img src={cover} alt={`${title} 封面`} loading="lazy" />
+      : <div class="card-cover-placeholder">暂无封面</div>}
+  </div>
+  <div class="card-body">
+    <h3>{title}</h3>
+    {tagline && <p class="card-tagline">{tagline}</p>}
+    {tech.length > 0 && (
+      <ul class="tag-list">
+        {tech.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    )}
+    <span class="card-link">查看详情 →</span>
+  </div>
+</a>

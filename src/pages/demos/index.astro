@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DemoCard from '../../components/DemoCard.astro';
+import { getCollection } from 'astro:content';
+
+const demos = (await getCollection('demos')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="游戏 Demo" description="我制作或参与的游戏 Demo，附演示视频、截图与试玩入口。">
+  <h1 class="page-title">游戏 Demo</h1>
+  <p class="lead">我制作或参与的游戏 Demo，每个 Demo 附演示视频、截图与试玩入口。</p>
+
+  <div class="grid" style="margin-top: 32px;">
+    {demos.map((d) => (
+      <DemoCard
+        href={`/demos/${d.id}/`}
+        title={d.data.title}
+        tagline={d.data.tagline}
+        cover={d.data.cover}
+        tech={d.data.tech}
+      />
+    ))}
+  </div>
+</BaseLayout>

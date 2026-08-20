@@ -1,0 +1,24 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  game: string;
+  date?: string;
+  tags?: string[];
+}
+
+const { href, title, game, date, tags = [] } = Astro.props;
+---
+
+<a class="card teardown-card" href={href}>
+  <div class="card-body">
+    <h3>{title}</h3>
+    <p class="card-meta">拆解对象：{game}{date ? ` · ${date}` : ''}</p>
+    {tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    )}
+    <span class="card-link">阅读拆解 →</span>
+  </div>
+</a>

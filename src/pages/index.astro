@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DemoCard from '../components/DemoCard.astro';
+import TeardownCard from '../components/TeardownCard.astro';
+import CaseCard from '../components/CaseCard.astro';
+import { getCollection } from 'astro:content';
+
+const demos = (await getCollection('demos')).sort((a, b) => a.data.order - b.data.order);
+const teardowns = (await getCollection('teardowns')).sort((a, b) => a.data.order - b.data.order);
+const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+
+const featuredDemos = demos.slice(0, 2);
+const featuredTeardown = teardowns[0];
+const featuredCases = cases.slice(0, 2);
+---
+
+<BaseLayout title="首页">
+  <section class="hero">
+    <h1>游戏作品集</h1>
+    <p class="lead">
+      专注玩法与系统设计的游戏策划 / 独立开发者：正在用 Godot 独立开发卡牌构筑肉鸽《江湖弈》，并持续输出游戏拆解与策划案例。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>精选 Demo</h2>
+      <a class="more-link" href="/demos/">查看全部 →</a>
+    </div>
+    <div class="grid">
+      {featuredDemos.map((d) => (
+        <DemoCard
+          href={`/demos/${d.id}/`}
+          title={d.data.title}
+          tagline={d.data.tagline}
+          cover={d.data.cover}
+          tech={d.data.tech}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>游戏拆解</h2>
+      <a class="more-link" href="/teardowns/">查看全部 →</a>
+    </div>
+    {featuredTeardown ? (
+      <div class="grid">
+        <TeardownCard
+          href={`/teardowns/${featuredTeardown.id}/`}
+          title={featuredTeardown.data.title}
+          game={featuredTeardown.data.game}
+          date={featuredTeardown.data.date}
+          tags={featuredTeardown.data.tags}
+        />
+      </div>
+    ) : (
+      <p class="empty">暂无拆解内容</p>
+    )}
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>策划案例</h2>
+      <a class="more-link" href="/cases/">查看全部 →</a>
+    </div>
+    <div class="grid">
+      {featuredCases.map((c) => (
+        <CaseCard
+          title={c.data.title}
+          summary={c.data.summary}
+          pdf={c.data.pdf}
+          tags={c.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

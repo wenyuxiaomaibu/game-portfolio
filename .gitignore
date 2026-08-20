@@ -1,0 +1,20 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# generated types
+.astro/types.d.ts
+
+# local npm cache (used when running inside a restricted sandbox)
+.npm-cache/
+
+# editor / os
+.DS_Store
+Thumbs.db
+*.log

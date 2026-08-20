@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  pdf: string;
+  tags?: string[];
+}
+
+const { title, summary, pdf, tags = [] } = Astro.props;
+---
+
+<article class="card case-card">
+  <div class="card-body">
+    <h3>{title}</h3>
+    <p class="card-tagline">{summary}</p>
+    {tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    )}
+    <a class="btn btn-primary" href={pdf} download>下载 PDF</a>
+  </div>
+</article>

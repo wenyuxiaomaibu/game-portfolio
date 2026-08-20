@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const demos = await getCollection('demos');
+  return demos.map((demo) => ({
+    params: { slug: demo.id },
+    props: { demo },
+  }));
+}
+
+const { demo } = Astro.props;
+const { Content } = await render(demo);
+const { title, tagline, cover, videoUrl, videoEmbed, playUrl, downloadUrl, tech, role, screenshots } =
+  demo.data;
+---
+
+<BaseLayout title={title} description={tagline}>
+  <article>
+    <a class="back-link" href="/demos/">← 返回全部 Demo</a>
+    <h1 class="page-title">{title}</h1>
+    {tagline && <p class="lead" style="margin-left: 0;">{tagline}</p>}
+
+    <div class="actions">
+      {playUrl && <a class="btn btn-primary" href={playUrl} target="_blank" rel="noopener">在线试玩</a>}
+      {videoUrl && <a class="btn" href={videoUrl} target="_blank" rel="noopener">观看演示视频</a>}
+      {downloadUrl && <a class="btn" href={downloadUrl} target="_blank" rel="noopener" download>下载 Demo</a>}
+    </div>
+
+    {cover && <img class="demo-cover" src={cover} alt={`${title} 封面`} />}
+
+    {videoEmbed && (
+      <div class="video-wrap">
+        <iframe src={videoEmbed} title={`${title} 演示视频`} allowfullscreen loading="lazy"></iframe>
+      </div>
+    )}
+
+    {tech.length > 0 && (
+      <ul class="tag-list" style="margin-top: 20px;">
+        {tech.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+    )}
+    {role && <p class="role"><strong>我的分工：</strong>{role}</p>}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {screenshots.length > 0 && (
+      <section class="screenshots">
+        <h2>截图</h2>
+        <div class="screenshot-grid">
+          {screenshots.map((src) => <img src={src} alt={`${title} 截图`} loading="lazy" />)}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>
