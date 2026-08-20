@@ -2,6 +2,8 @@
 
 基于 [Astro](https://astro.build) 的静态作品集网站，用于展示 **游戏 Demo**、**游戏拆解**、**策划案例**。中文、简洁专业风格，构建产物为纯静态 HTML，可免费部署到 GitHub Pages / Vercel。
 
+> 线上地址：**https://game-portfolio.1281524643.workers.dev/**
+
 ## 部署（Cloudflare Pages，免费）
 
 1. 初始化 git 仓库并推送到 GitHub：
