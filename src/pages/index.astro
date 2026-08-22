@@ -8,10 +8,6 @@ import { getCollection } from 'astro:content';
 const demos = (await getCollection('demos')).sort((a, b) => a.data.order - b.data.order);
 const teardowns = (await getCollection('teardowns')).sort((a, b) => a.data.order - b.data.order);
 const cases = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
-
-const featuredDemos = demos.slice(0, 2);
-const featuredTeardown = teardowns[0];
-const featuredCases = cases.slice(0, 2);
 ---
 
 <BaseLayout title="首页">
@@ -24,11 +20,10 @@ const featuredCases = cases.slice(0, 2);
 
   <section class="section">
     <div class="section-head">
-      <h2>精选 Demo</h2>
-      <a class="more-link" href="/demos/">查看全部 →</a>
+      <h2>游戏 Demo</h2>
     </div>
     <div class="grid">
-      {featuredDemos.map((d) => (
+      {demos.map((d) => (
         <DemoCard
           href={`/demos/${d.id}/`}
           title={d.data.title}
@@ -43,17 +38,18 @@ const featuredCases = cases.slice(0, 2);
   <section class="section">
     <div class="section-head">
       <h2>游戏拆解</h2>
-      <a class="more-link" href="/teardowns/">查看全部 →</a>
     </div>
-    {featuredTeardown ? (
+    {teardowns.length > 0 ? (
       <div class="grid">
-        <TeardownCard
-          href={`/teardowns/${featuredTeardown.id}/`}
-          title={featuredTeardown.data.title}
-          game={featuredTeardown.data.game}
-          date={featuredTeardown.data.date}
-          tags={featuredTeardown.data.tags}
-        />
+        {teardowns.map((t) => (
+          <TeardownCard
+            href={`/teardowns/${t.id}/`}
+            title={t.data.title}
+            game={t.data.game}
+            date={t.data.date}
+            tags={t.data.tags}
+          />
+        ))}
       </div>
     ) : (
       <p class="empty">暂无拆解内容</p>
@@ -63,10 +59,9 @@ const featuredCases = cases.slice(0, 2);
   <section class="section">
     <div class="section-head">
       <h2>策划案例</h2>
-      <a class="more-link" href="/cases/">查看全部 →</a>
     </div>
     <div class="grid">
-      {featuredCases.map((c) => (
+      {cases.map((c) => (
         <CaseCard
           title={c.data.title}
           summary={c.data.summary}
